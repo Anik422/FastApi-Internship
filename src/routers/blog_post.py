@@ -1,4 +1,4 @@
-from fastapi import APIRouter, status, Query
+from fastapi import APIRouter, status, Query, Body
 from typing import Optional
 from  request_models.bolg_model import BlogModel
 
@@ -23,12 +23,25 @@ def create_blog(blog: BlogModel, id:int, version: int = 1):
 
 
 @router.post("/new/{id}/comment", status_code=status.HTTP_201_CREATED)
-def create_comment(blog: BlogModel, id:int, commnt_id=Query(None, title="Comment ID", description="This is the comment ID")):
+def create_comment(blog: BlogModel, id:int, 
+                   commnt_id = Query(None, 
+                                   title="Comment ID", 
+                                    description="This is the comment ID", 
+                                    alias="commentId", 
+                                    deprecated=True
+                                    ),
+                    content: str =  Body(..., 
+                                         min_length=10, 
+                                         max_length=100,
+                                         regex="^[a-z\s]*$",
+                                         )                 
+                                    
+                    ):
     """
     This API creates a new comment
     - **blog**: blog object
     - **id**: blog id
-    - **comment_id**: comment id
+    - **commentId**: comment id
     """
 
-    return {"id" : id, "data" : blog, "comment_id" : commnt_id, "message" : "Comment created successfully"}
+    return {"id" : id, "blog" : blog, "comment_id" : commnt_id, "content" : content, "message" : "Comment created successfully"}
