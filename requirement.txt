@@ -1,0 +1,3 @@
+fastapi[standard]
+typer==0.12.3
+pydantic==2.8.2
