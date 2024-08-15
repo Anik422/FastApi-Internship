@@ -34,11 +34,18 @@ def get_all_blogs(page = 1, page_size : Optional[int] = None):
 
 @app.get("/blog/{id}/comments/{comment_id}", 
             status_code=status.HTTP_200_OK, 
-            tags=['Blog', 'Comment'],
-            summary="Get blog comments",
-            description="This API returns blog comments",
+            tags=['Blog', 'Comment']
         ) 
 def get_comment(id:int, comment_id:int, valid:bool = True, username: Optional[str] = None):
+    """
+    This API returns comment for a blog
+
+    - **id**: blog id
+    - **comment_id**: comment id
+    - **valid**: valid comment
+    - **username**: username
+    
+    """
     return {"message": f"blog_id {id}, comment_id {comment_id}, valid {valid}, username: {username}"}
 
 # Enum class 
