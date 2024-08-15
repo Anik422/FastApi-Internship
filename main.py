@@ -11,7 +11,8 @@ app  = FastAPI()
             status_code=status.HTTP_200_OK,
             tags=['Root'],
             summary="Root API",
-            description="This is the root API"
+            description="This is the root API",
+            response_description="Root API response"
          ) 
 def index():
     return {"message": "Hello, World"}
@@ -27,6 +28,7 @@ def index():
             tags=['Blog'],
             summary="Get all blogs",
             description="This API returns all blogs",
+            response_description="All blogs response"
          ) 
 def get_all_blogs(page = 1, page_size : Optional[int] = None):
     return {"message": f"All {page_size} blogs on page {page}"}
@@ -34,8 +36,9 @@ def get_all_blogs(page = 1, page_size : Optional[int] = None):
 
 @app.get("/blog/{id}/comments/{comment_id}", 
             status_code=status.HTTP_200_OK, 
-            tags=['Blog', 'Comment']
-        ) 
+            tags=['Blog', 'Comment'],
+            response_description="Blog comment response",
+    )
 def get_comment(id:int, comment_id:int, valid:bool = True, username: Optional[str] = None):
     """
     This API returns comment for a blog
@@ -44,7 +47,7 @@ def get_comment(id:int, comment_id:int, valid:bool = True, username: Optional[st
     - **comment_id**: comment id
     - **valid**: valid comment
     - **username**: username
-    
+
     """
     return {"message": f"blog_id {id}, comment_id {comment_id}, valid {valid}, username: {username}"}
 
@@ -59,6 +62,7 @@ class BlogType(str, Enum):
             tags=['Blog'],
             summary="Get blog type",
             description="This API returns blog type",
+            response_description="Blog type response"
         ) 
 def get_blog_type(type : BlogType):
     return {"message": f"Blog type {type}"}
@@ -69,6 +73,7 @@ def get_blog_type(type : BlogType):
             tags=['Blog'],
             summary="Get blog by id",
             description="This API returns blog by id",
+            response_description="Blog by id response"
         ) 
 def get_blog(id:int, response: Response):
     if id > 5:
