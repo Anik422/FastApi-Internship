@@ -7,7 +7,12 @@ app  = FastAPI()
 
 
 
-@app.get("/", status_code=status.HTTP_200_OK) 
+@app.get("/", 
+            status_code=status.HTTP_200_OK,
+            tags=['Root'],
+            summary="Root API",
+            description="This is the root API"
+         ) 
 def index():
     return {"message": "Hello, World"}
 
@@ -17,12 +22,22 @@ def index():
 #     return {"message": "All blogs provided"}
 
 #Query Parameters
-@app.get("/blog/all", status_code=status.HTTP_200_OK, tags=['Blog']) 
+@app.get("/blog/all", 
+            status_code=status.HTTP_200_OK, 
+            tags=['Blog'],
+            summary="Get all blogs",
+            description="This API returns all blogs",
+         ) 
 def get_all_blogs(page = 1, page_size : Optional[int] = None):
     return {"message": f"All {page_size} blogs on page {page}"}
 
 
-@app.get("/blog/{id}/comments/{comment_id}", status_code=status.HTTP_200_OK, tags=['Blog', 'Comment']) 
+@app.get("/blog/{id}/comments/{comment_id}", 
+            status_code=status.HTTP_200_OK, 
+            tags=['Blog', 'Comment'],
+            summary="Get blog comments",
+            description="This API returns blog comments",
+        ) 
 def get_comment(id:int, comment_id:int, valid:bool = True, username: Optional[str] = None):
     return {"message": f"blog_id {id}, comment_id {comment_id}, valid {valid}, username: {username}"}
 
@@ -32,12 +47,22 @@ class BlogType(str, Enum):
     story = "Story" 
     howto = "Howto"
 #predefined value
-@app.get("/blog/type/{type}", status_code=status.HTTP_200_OK, tags=['Blog']) 
+@app.get("/blog/type/{type}", 
+            status_code=status.HTTP_200_OK, 
+            tags=['Blog'],
+            summary="Get blog type",
+            description="This API returns blog type",
+        ) 
 def get_blog_type(type : BlogType):
     return {"message": f"Blog type {type}"}
 
 # path parameters
-@app.get('/blog/{id}', status_code=status.HTTP_200_OK, tags=['Blog']) 
+@app.get('/blog/{id}', 
+            status_code=status.HTTP_200_OK, 
+            tags=['Blog'],
+            summary="Get blog by id",
+            description="This API returns blog by id",
+        ) 
 def get_blog(id:int, response: Response):
     if id > 5:
         response.status_code = status.HTTP_404_NOT_FOUND
