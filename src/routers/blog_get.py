@@ -19,7 +19,7 @@ router = APIRouter(
             description="This API returns all blogs",
             response_description="All blogs response"
          ) 
-def get_all_blogs(page = 1, page_size : Optional[int] = None):
+def get_all_blogs(page:int = 1, page_size : Optional[int] = None):
     return {"message": f"All {page_size} blogs on page {page}"}
 
 
