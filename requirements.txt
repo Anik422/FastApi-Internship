@@ -1,3 +1,6 @@
 fastapi[standard]
 typer==0.12.3
 pydantic==2.8.2
+sqlalchemy==1.4.31
+passlib==1.7.4
+bcrypt==3.2.0
