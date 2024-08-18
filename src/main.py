@@ -1,9 +1,6 @@
 from fastapi import FastAPI, status
-from routers import blog_get
-from routers import blog_post
-from routers import user
-from routers import article
-from routers import product
+from routers import blog_get, product, blog_post, user, article
+from auth import authentication
 from db import models
 from db.database import engine
 from exceptions.stroy_exceptions import StroryException
@@ -12,11 +9,11 @@ from fastapi import Request, status
 from fastapi.middleware.cors import CORSMiddleware
 
 app  = FastAPI()
-
+app.include_router(authentication.router)
 app.include_router(blog_get.router)
 app.include_router(blog_post.router)
 app.include_router(user.router)
-app.include_router(article.router)
+app.include_router(article.router) 
 app.include_router(product.router)
 
 
@@ -55,7 +52,7 @@ origins = [
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credential = True,
-    allow_method = ["*"],
+    allow_credentials = True,
+    allow_methods = ["*"],
     allow_headers = ["*"]
 )
