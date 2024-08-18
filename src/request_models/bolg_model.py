@@ -15,3 +15,6 @@ class BlogModel(BaseModel):
     tags: List[str] = []
     metadata: Dict[str, str] = {'key1': 'val1'}
     image: Optional[Image] = None
+
+    # class Config:
+    #     from_attributes = True

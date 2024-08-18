@@ -15,6 +15,7 @@ class ArticleModel(BaseModel):
     
     class Config:
         from_attributes = True
+        # orm_mode = True
 
 class ArticleDisplay(BaseModel):
     title: str
