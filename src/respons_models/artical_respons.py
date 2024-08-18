@@ -6,7 +6,7 @@ class User(BaseModel):
     username: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class ArticleModel(BaseModel):
     title: str
@@ -14,7 +14,7 @@ class ArticleModel(BaseModel):
     published: bool
     
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class ArticleDisplay(BaseModel):
     title: str
@@ -23,4 +23,6 @@ class ArticleDisplay(BaseModel):
     user: User
     
     class Config:
-        orm_mode = True
+        # orm_mode = True
+        from_attributes = True
+        
