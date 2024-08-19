@@ -1,1 +1,2 @@
-MyAPI : Product template called
+My App : 
+	http://127.0.0.1:8000/dependencies?separator=34&tag=My%20App

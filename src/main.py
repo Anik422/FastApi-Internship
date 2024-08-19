@@ -1,5 +1,5 @@
 from fastapi import FastAPI, status
-from routers import blog_get, product, blog_post, user, article, file
+from routers import blog_get, product, blog_post, user, article, file,dependencies
 from auth import authentication
 from templates import templates
 from db import models
@@ -24,6 +24,7 @@ app.include_router(article.router)
 app.include_router(product.router)
 app.include_router(file.router)
 app.include_router(templates.router)
+app.include_router(dependencies.router)
 
 
 
