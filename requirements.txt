@@ -8,3 +8,5 @@ python-multipart==0.0.5
 python-jose==3.3.0
 aiofiles==0.7.0
 pytest==6.2.4
+jinja2
+websockets

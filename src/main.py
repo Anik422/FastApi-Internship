@@ -1,13 +1,19 @@
 from fastapi import FastAPI, status
 from routers import blog_get, product, blog_post, user, article, file
 from auth import authentication
+from templates import templates
 from db import models
 from db.database import engine
 from exceptions.stroy_exceptions import StroryException
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, HTMLResponse
 from fastapi import Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+import time
+from client import html
+from fastapi.websockets import WebSocket
+
+
 
 app  = FastAPI()
 app.include_router(authentication.router)
@@ -17,12 +23,13 @@ app.include_router(user.router)
 app.include_router(article.router) 
 app.include_router(product.router)
 app.include_router(file.router)
+app.include_router(templates.router)
 
 
 
 
 
-@app.get("/", 
+@app.get("/index", 
             status_code=status.HTTP_200_OK,
             tags=['Root'],
             summary="Root API",
@@ -43,8 +50,34 @@ async def story_exception_handler(request: Request, exc: StroryException):
         content={"datail": exc.name}
     )
 
+@app.get("/")
+async def get(): 
+    return HTMLResponse(html)
+
+
+clients = []
+
+@app.websocket("/chat")
+async def chat_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    clients.append(websocket)
+    while True:
+        data = await websocket.receive_text()
+        for claient in clients:
+            await claient.send_text(data)
+            
 
 models.Base.metadata.create_all(engine)
+
+
+
+@app.middleware("http")
+async def add_middleware(request: Request, call_next):
+    start_time = time.time()
+    response = await call_next(request)
+    duration = time.time() - start_time
+    response.headers["X-Response-Time"] = str(duration)
+    return response
 
 
 origins = [
@@ -60,3 +93,4 @@ app.add_middleware(
 )
 
 app.mount("/files", StaticFiles(directory="files"), name="files")
+app.mount("/templates/static", StaticFiles(directory="templates/static"), name="static")
